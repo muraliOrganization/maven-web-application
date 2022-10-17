@@ -28,7 +28,12 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
 	</properties>
-
+        <repositories>
+          <repository>
+          	<id>nexus</id>
+          	<url>http://192.168.116.128:8081/repository/murali-maven-group-repo/</url>
+          </repository>
+        </repositories>
 	<dependencies>
 		
 		<dependency>
