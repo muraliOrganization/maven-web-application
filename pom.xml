@@ -102,9 +102,9 @@
 		
 	</dependencies>
 	
-	<distributionManagement>
+<!--	<distributionManagement>
 	
-<!--	    <repository>
+	    <repository>
 	      <id>nexus</id>
 	      <name>Mithun Technologies Releases Nexus Repository</name>
 	      <url>http://192.168.116.128:8081/repository/flipcard-remote-repo/</url>
@@ -114,9 +114,9 @@
 	      <id>nexus</id>
 	      <name>Mithun Technologies Snapshot Nexus Repository </name>
 	      <url>http://192.168.116.128:8081/repository/flipcart-snapshot//</url>
-	    </snapshotRepository>  -->
+	    </snapshotRepository>  
     
-	</distributionManagement>
+	</distributionManagement> -->
 	
 	<build>
 		<finalName>maven-web-application</finalName>
