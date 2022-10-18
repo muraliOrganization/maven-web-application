@@ -31,7 +31,7 @@
         <repositories>
           <repository>
           	<id>nexus</id>
-          	<url>http://192.168.99.1:8081/repository/muralisoft-remote-repo/</url>
+          	<url>http://192.168.116.128:8081/repository/murali-maven-group-repository/</url>
           </repository>
         </repositories>
 	<dependencies>
