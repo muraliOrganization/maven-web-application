@@ -1,0 +1,47 @@
+node
+{
+    properties([buildDiscarder(logRotator(artifactDaysToKeepStr: '', artifactNumToKeepStr: '2', daysToKeepStr: '', numToKeepStr: '2'))])
+    
+    def mavenHome = tool name: "maven3.8.6"
+    
+    stage('CheckoutCode')
+    {
+        git branch: 'uat', credentialsId: '07c822f0-6820-4069-b6e4-65a9c70c3253', url: 'https://github.com/muraliOrganization/maven-web-application.git'
+    }
+    
+    stage('Build')
+    {
+        sh "${mavenHome}/bin/mvn clean package"
+    }
+    
+    stage('executeSonarQubeReport')
+    {
+        sh "${mavenHome}/bin/mvn sonar:sonar"
+    }
+    
+    stage('uploadArtifactoryIntoNexus')
+    {
+        sh "${mavenHome}/bin/mvn deploy"
+    }
+ 
+    stage('deployWARUsingSSHAgent')
+       {
+        sshagent(['9aaae1c9-0ae6-44ca-bfda-a56354adbc34']) {
+           sh 'ssh -o StrictHostKeyChecking=no -l root 192.168.116.129 whoami'
+           sh 'scp -o StrictHostKeyChecking=no target/maven-web-application.war root@192.168.116.129:/opt/apache-tomcat-9.0.44/webapps'
+        }
+        
+       
+    }
+    
+    stage('deployWAR_To_Tomcat') { 
+        deploy adapters: [tomcat9(credentialsId: 'f718520b-14ec-40ea-aeaa-ac949981d868', path: '', url: 'http://192.168.116.128:8083/')], contextPath: null, war: '**/maven-web-application.war'
+    }
+    
+    stage('sendEmailNotification'){
+        mail bcc: '', body: '''This job is success
+
+        Regards,
+        Murali Kukkapalli.''', cc: 'kukkapallimurali.gmail.com', from: '', replyTo: '', subject: 'Build Status', to: 'murali.4848@gmail.com'
+    }
+}
